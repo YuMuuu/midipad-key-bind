@@ -6,6 +6,12 @@
   "author": "curelemonade15@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "midi": "^1.0.0"
+    "@types/node": "^13.13.4",
+    "midi": "^1.0.0",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "run": "node src/index.js"
   }
 }
