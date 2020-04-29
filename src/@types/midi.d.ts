@@ -9,10 +9,11 @@ declare module 'midi' {
     getPortCount(): number;
     getPortName(port: number): string;
     //todo: Promiseeを返却するように変換する
-    on(message: Message, callback: (deltaTime: number, message: Message) => void): void;
+    on(message: string, callback: (deltaTime: number, message: Message) => void): void;
     openPort(port: number): void;
     ignoreTypes(Sysex: boolean, Timing: boolean, ActiveSensing: boolean): void;
     closePort(): void;
+    sPortOpen(): boolean;
   }
   export class Output {
     getPortCount(): number;
