@@ -18,8 +18,14 @@ for (var i = 0; i < portCount; i++) {
 }
 console.log('nanoPAD2 PAD port: ' + inputPortMap.get('nanoPAD2 PAD'));
 input.on('message', function (deltaTime, message) {
-    console.log("m: " + message + " d: " + deltaTime);
+    var tm = fromMessage(message);
+    // console.log(`m: ${message} d: ${deltaTime}`)
+    console.log('ch: ' + tm.ch + ', noteNum: ' + tm.noteNumber + ', vel: ' + tm.vel + ', d: ' + deltaTime);
 });
 // input.openPort(inputPortMap.get('nanoPAD2 PAD')!)
-input.openPort(inputPortMap.get('A-Series Keyboard Keyboard'));
+input.openPort(inputPortMap.get('nanoPAD2 PAD'));
 setTimeout(function () { return input.closePort(); }, 10000);
+function fromMessage(message) {
+    return { ch: message[0], noteNumber: message[1], vel: message[2] };
+}
+exports.fromMessage = fromMessage;

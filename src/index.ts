@@ -16,10 +16,20 @@ for (let i = 0; i < portCount; i++) {
 console.log('nanoPAD2 PAD port: ' + inputPortMap.get('nanoPAD2 PAD'))
 
 input.on('message', (deltaTime, message) => {
-  console.log(`m: ${message} d: ${deltaTime}`)
+  const tm = fromMessage(message)
+  // console.log(`m: ${message} d: ${deltaTime}`)
+  console.log('ch: ' +tm.ch +', noteNum: ' + tm.noteNumber + ', vel: ' + tm.vel + ', d: ' + deltaTime)
 })
 
 // input.openPort(inputPortMap.get('nanoPAD2 PAD')!)
-input.openPort(inputPortMap.get('A-Series Keyboard Keyboard')!)
+input.openPort(inputPortMap.get('nanoPAD2 PAD')!)
 
 setTimeout(() => input.closePort(), 10000)
+
+
+//--------------------
+
+type TypedMessage = { ch: number, noteNumber: number, vel: number }
+export function fromMessage(message: midi.Message): TypedMessage {
+  return { ch: message[0], noteNumber: message[1], vel: message[2] }
+}
