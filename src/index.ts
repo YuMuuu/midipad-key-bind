@@ -1,7 +1,10 @@
 import * as midi from 'midi'
+import * as child_process from 'child_process'
 
 const input = new midi.Input()
 const portCount = input.getPortCount()
+
+const exec = child_process.execSync
 
 console.log('-----init-----')
 console.log('midiInput port name:')
@@ -21,16 +24,30 @@ input.on('message', (deltaTime, message) => {
   if (isNoteOn(tm.ch)) {
     // console.log('ch: ' + tm.ch + ', note: ' + tm.note + ', vel: ' + tm.vel + ', d: ' + deltaTime)
     console.log('note: '+ tm.note)
+
+    switch(tm.note) {
+      case 36:
+        exec('open -a Slack')
+        break
+      case 37:
+        exec('open -a ChatWork')
+        break
+      case 38:
+        exec('open -a IntelliJ\ IDEA')
+        break            
+      default:
+        break  
+    }
   }
 })
 
 input.openPort(inputPortMap.get('nanoPAD2 PAD')!)
 console.log('-----start-----')
 
-setTimeout(() => {
-  input.closePort()
-  console.log('-----close-----')
-}, 10000)
+// setTimeout(() => {
+//   input.closePort()
+//   console.log('-----close-----')
+// }, 10000)
 
 
 
@@ -47,7 +64,7 @@ function isNoteOn(ch: number): boolean {
   return  (144 <= ch && ch <= 159)
 }
 
-// nanopad notenumber: 36 ~ 51
+// nanopad noten: 36 ~ 51
 //borad map
 // | - | - | - | - | - | - | - | - |
 // |37 |39 |41 |43 |45 |47 |49 |51 |

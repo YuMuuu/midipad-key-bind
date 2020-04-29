@@ -8,8 +8,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var midi = __importStar(require("midi"));
+var child_process = __importStar(require("child_process"));
 var input = new midi.Input();
 var portCount = input.getPortCount();
+var exec = child_process.execSync;
 console.log('-----init-----');
 console.log('midiInput port name:');
 var inputPortMap = new Map();
@@ -23,6 +25,19 @@ input.on('message', function (deltaTime, message) {
     if (isNoteOn(tm.ch)) {
         // console.log('ch: ' + tm.ch + ', note: ' + tm.note + ', vel: ' + tm.vel + ', d: ' + deltaTime)
         console.log('note: ' + tm.note);
+        switch (tm.note) {
+            case 36:
+                exec('open -a Slack');
+                break;
+            case 37:
+                exec('open -a ChatWork');
+                break;
+            case 38:
+                exec('open -a IntelliJ\ IDEA');
+                break;
+            default:
+                break;
+        }
     }
 });
 input.openPort(inputPortMap.get('nanoPAD2 PAD'));
@@ -39,7 +54,7 @@ function isNoteOn(ch) {
     //9n hex, n = 0 ~ 15
     return (144 <= ch && ch <= 159);
 }
-// nanopad notenumber: 36 ~ 51
+// nanopad noten: 36 ~ 51
 //borad map
 // | - | - | - | - | - | - | - | - |
 // |37 |39 |41 |43 |45 |47 |49 |51 |
