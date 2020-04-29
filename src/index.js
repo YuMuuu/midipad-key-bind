@@ -10,6 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var midi = __importStar(require("midi"));
 var input = new midi.Input();
 var portCount = input.getPortCount();
+console.log('-----init-----');
 console.log('midiInput port name:');
 var inputPortMap = new Map();
 for (var i = 0; i < portCount; i++) {
@@ -19,13 +20,32 @@ for (var i = 0; i < portCount; i++) {
 console.log('nanoPAD2 PAD port: ' + inputPortMap.get('nanoPAD2 PAD'));
 input.on('message', function (deltaTime, message) {
     var tm = fromMessage(message);
-    // console.log(`m: ${message} d: ${deltaTime}`)
-    console.log('ch: ' + tm.ch + ', noteNum: ' + tm.noteNumber + ', vel: ' + tm.vel + ', d: ' + deltaTime);
+    if (isNoteOn(tm.ch)) {
+        // console.log('ch: ' + tm.ch + ', note: ' + tm.note + ', vel: ' + tm.vel + ', d: ' + deltaTime)
+        console.log('note: ' + tm.note);
+    }
 });
-// input.openPort(inputPortMap.get('nanoPAD2 PAD')!)
 input.openPort(inputPortMap.get('nanoPAD2 PAD'));
-setTimeout(function () { return input.closePort(); }, 10000);
+console.log('-----start-----');
+setTimeout(function () {
+    input.closePort();
+    console.log('-----close-----');
+}, 10000);
 function fromMessage(message) {
-    return { ch: message[0], noteNumber: message[1], vel: message[2] };
+    return { ch: message[0], note: message[1], vel: message[2] };
 }
 exports.fromMessage = fromMessage;
+function isNoteOn(ch) {
+    //9n hex, n = 0 ~ 15
+    return (144 <= ch && ch <= 159);
+}
+// nanopad notenumber: 36 ~ 51
+//borad map
+// | - | - | - | - | - | - | - | - |
+// |37 |39 |41 |43 |45 |47 |49 |51 |
+// | - | - | - | - | - | - | - | - |
+// |36 |38 |40 |42 |44 |46 |58 |50 |
+// | - | - | - | - | - | - | - | - |
+function isNanoPad2Scale(note) {
+    return (36 <= note && note <= 51);
+}
