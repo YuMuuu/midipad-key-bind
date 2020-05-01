@@ -33,8 +33,47 @@ input.on('message', (deltaTime, message) => {
         exec('open -a ChatWork')
         break
       case 38:
-        exec('open -a IntelliJ\ IDEA')
+        exec('open -a "IntelliJ\ IDEA"')
         break            
+      case 39:
+        exec('open -a "Android\ Studio"')
+        break 
+      case 40:
+        exec('')
+        break 
+      case 41:
+        exec('')
+        break      
+      case 42:
+        exec('')
+        break 
+      case 43:
+        exec('')
+        break 
+      case 44:
+        exec('')
+        break 
+      case 45:
+        exec('')
+        break 
+      case 46:
+        exec('')
+        break 
+      case 47:
+        exec('')
+        break 
+      case 48:
+        exec('')
+        break 
+      case 49:
+        exec('')
+        break 
+      case 50:
+        exec('')
+        break 
+      case 51:
+        exec('')
+        break 
       default:
         break  
     }
@@ -43,11 +82,6 @@ input.on('message', (deltaTime, message) => {
 
 input.openPort(inputPortMap.get('nanoPAD2 PAD')!)
 console.log('-----start-----')
-
-// setTimeout(() => {
-//   input.closePort()
-//   console.log('-----close-----')
-// }, 10000)
 
 
 
